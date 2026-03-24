@@ -5,7 +5,7 @@
 ## Архитектура
 
 ```
-ЮKassa → psychology777.online (Nginx) → 46.225.106.127 (webhook-service) → Telegram Bot API → Telegram-бот
+ЮKassa → ххххххх.online (Nginx) → 11.111.111.111 (webhook-service) → Telegram Bot API → Telegram-бот
 ```
 
 ### Компоненты системы
