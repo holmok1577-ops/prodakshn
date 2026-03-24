@@ -3,7 +3,7 @@
 
 const axios = require('axios');
 
-const YOOKASSA_SECRET_KEY = 'live_akopCQ8XXXXXXXXXXXXjA8hACwRkqPV5fV-UFnYje4Ck';
+const YOOKASSA_SECRET_KEY = 'live_akopCQ8XXXXXXXXXXXXхххххххххххххххххххххх';
 const YOOKASSA_SHOP_ID = '111111111';
 const YOOKASSA_API_URL = 'https://api.yookassa.ru/v3/payments';
 
