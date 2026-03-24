@@ -14,7 +14,7 @@
    - Nginx прокси для HTTPS
    - Перенаправляет webhook запросы на сервер бота
 
-2. **46.225.106.127** - сервер бота
+2. **11.111.111.111** - сервер бота
    - webhook-service (FastAPI) - обрабатывает webhook
    - Проверяет подпись ЮKassa
    - Активирует подписки в `/app/subscriptions.json`
@@ -25,22 +25,22 @@
 1. Пользователь инициирует оплату через Telegram-бота
 2. Бот создает платеж в ЮKassa с `metadata.telegram_id`
 3. Пользователь оплачивает
-4. ЮKassa отправляет webhook на `https://psychology777.online/yookassa/webhook`
-5. Nginx проксирует запрос на `46.225.106.127:8001/yookassa/webhook`
+4. ЮKassa отправляет webhook на `https://ххххххх.online/yookassa/webhook`
+5. Nginx проксирует запрос на `11.111.111.111:8001/yookassa/webhook`
 6. webhook-service проверяет подпись и извлекает `telegram_id`
 7. webhook-service активирует подписку в `/app/subscriptions.json`
 8. Пользователь получает доступ в боте
 
 ## Данные ЮKassa
 
-- **ShopID:** 1299171
-- **API ключ:** `live_akopCQ8qGDP56rGpVrjA8hACwRkqPV5fV-UFnYje4Ck`
+- **ShopID:** 1211111
+- **API ключ:** `live_akopХХХХХХХХХХХХХХХХхххХХХk`
 
 ⚠️ **Важно:** В ЮKassa используется один ключ для всех операций:
 - Создание платежей в Telegram-боте
 - Проверка webhook подписей в webhook-service
 
-## Настройка сервера psychology777.online
+## Настройка сервера ххххххх.online
 
 ### Требования
 
@@ -55,7 +55,7 @@
 ```nginx
 server {
     listen 80;
-    server_name psychology777.online vds2949446.my-ihor.ru;
+    server_name ххххххх.online vds2949446.my-ihor.ru;
     return 301 https://$server_name$request_uri;
 }
 
@@ -76,7 +76,7 @@ server {
 
     # Webhook endpoint - проксируем на сервер бота
     location /yookassa/webhook {
-        proxy_pass http://46.225.106.127:8001/yookassa/webhook;
+        proxy_pass http://11.111.111.111:8001/yookassa/webhook;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -119,10 +119,10 @@ sudo systemctl restart nginx
 ### Получение SSL сертификата
 
 ```bash
-sudo certbot --nginx -d psychology777.online
+sudo certbot --nginx -d хххххххх.online
 ```
 
-## Настройка сервера бота (46.225.106.127)
+## Настройка сервера бота (11.111.111.111)
 
 ### Требования
 
@@ -135,7 +135,7 @@ sudo certbot --nginx -d psychology777.online
 #### 1. Загрузка webhook-service
 
 ```bash
-scp -r webhook-service/ root@46.225.106.127:/opt/ai-psych/webhook-service
+scp -r webhook-service/ root@11.111.111.111:/opt/ai-psych/webhook-service
 ```
 
 #### 2. Добавление в docker-compose.yml
@@ -160,21 +160,21 @@ scp -r webhook-service/ root@46.225.106.127:/opt/ai-psych/webhook-service
 В файл `/opt/ai-psych/.env` добавьте:
 
 ```env
-YOOKASSA_SHOP_ID=1299171
-YOOKASSA_SECRET_KEY=live_akopCQ8qGDP56rGpVrjA8hACwRkqPV5fV-UFnYje4Ck
-TELEGRAM_BOT_TOKEN=8575768480:AAHH-8PwiDPGDYaVNCZdUzW8WetLLQ-SElA
+YOOKASSA_SHOP_ID=1211111
+YOOKASSA_SECRET_KEY=live_akopххххххххххххххххххххххххх
+TELEGRAM_BOT_TOKEN=ххххххххххххххххххххххххххх
 ```
 
 #### 4. Перезапуск
 
 ```bash
-ssh root@46.225.106.127 "cd /opt/ai-psych && docker-compose down && docker-compose up -d --build"
+ssh root@11.111.111.111 "cd /opt/ai-psych && docker-compose down && docker-compose up -d --build"
 ```
 
 #### 5. Проверка
 
 ```bash
-curl http://46.225.106.127:8001/health
+curl http://11.111.111.111:8001/health
 ```
 
 ## Настройка вебхука в ЮKassa
@@ -182,7 +182,7 @@ curl http://46.225.106.127:8001/health
 В кабинете ЮKassa укажите:
 
 ```
-https://psychology777.online/yookassa/webhook
+https://хххххххххх.online/yookassa/webhook
 ```
 
 ## Создание платежа в боте
@@ -192,8 +192,8 @@ https://psychology777.online/yookassa/webhook
 ```javascript
 const axios = require('axios');
 
-const YOOKASSA_SECRET_KEY = 'live_akopCQ8qGDP56rGpVrjA8hACwRkqPV5fV-UFnYje4Ck';
-const YOOKASSA_SHOP_ID = '1299171';
+const YOOKASSA_SECRET_KEY = 'live_akopхххххххххххххххххххххххххххххх';
+const YOOKASSA_SHOP_ID = '1211111';
 const YOOKASSA_API_URL = 'https://api.yookassa.ru/v3/payments';
 
 async function createPayment(telegramId, amount, description, returnUrl) {
@@ -276,7 +276,7 @@ async function createPayment(telegramId, amount, description, returnUrl) {
 ## Безопасность
 
 - ✅ Проверка HMAC SHA256 подписи ЮKassa (на сервере бота)
-- ✅ HTTPS обязательный (на psychology777.online)
+- ✅ HTTPS обязательный (на ххххххххх.online)
 - ✅ Валидация входных данных (на сервере бота)
 - ✅ Логирование всех событий (на сервере бота)
 - ✅ Docker изоляция (на сервере бота)
@@ -285,8 +285,8 @@ async function createPayment(telegramId, amount, description, returnUrl) {
 
 ### Вебхуки не приходят
 
-1. Проверьте URL в кабинете ЮKassa: `https://psychology777.online/yookassa/webhook`
-2. Убедитесь, что HTTPS работает: `curl https://psychology777.online/health`
+1. Проверьте URL в кабинете ЮKassa: `https://ххххххххх.online/yookassa/webhook`
+2. Убедитесь, что HTTPS работает: `curl https://ххххххххх.online/health`
 3. Проверьте Nginx логи: `sudo tail -f /var/log/nginx/access.log`
 4. Проверьте webhook-service логи на сервере бота: `docker-compose logs -f webhook-service`
 
@@ -307,7 +307,7 @@ docker-compose ps
 
 ```bash
 # Проверьте доступность webhook-service
-curl http://46.225.106.127:8001/health
+curl http://11.111.111.111:8001/health
 
 # Проверьте Nginx конфиг
 sudo nginx -t
@@ -315,10 +315,10 @@ sudo nginx -t
 
 ## Тестирование webhook
 
-### Тест через psychology777.online
+### Тест через хххххххххх.online
 
 ```bash
-curl -X POST https://psychology777.online/yookassa/webhook \
+curl -X POST https://ххххххххх.online/yookassa/webhook \
   -H "Content-Type: application/json" \
   -d '{
     "event": "payment.succeeded",
@@ -338,7 +338,7 @@ curl -X POST https://psychology777.online/yookassa/webhook \
 ### Тест напрямую на сервере бота
 
 ```bash
-curl -X POST http://46.225.106.127:8001/yookassa/webhook \
+curl -X POST http://11.111.111.111:8001/yookassa/webhook \
   -H "Content-Type: application/json" \
   -d '{
     "event": "payment.succeeded",
@@ -359,13 +359,13 @@ curl -X POST http://46.225.106.127:8001/yookassa/webhook \
 
 ### Логи
 
-**На psychology777.online:**
+**На хххххххх.online:**
 ```bash
 sudo tail -f /var/log/nginx/access.log
 sudo tail -f /var/log/nginx/error.log
 ```
 
-**На сервере бота (46.225.106.127):**
+**На сервере бота (11.111.111.111):**
 ```bash
 cd /opt/ai-psych
 docker-compose logs -f webhook-service
