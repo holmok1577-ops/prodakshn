@@ -10,7 +10,7 @@
 
 ### Компоненты системы
 
-1. **psychology777.online** - сервер с доменом и SSL сертификатом
+1. **ххххххххх.online** - сервер с доменом и SSL сертификатом
    - Nginx прокси для HTTPS
    - Перенаправляет webhook запросы на сервер бота
 
@@ -55,16 +55,16 @@
 ```nginx
 server {
     listen 80;
-    server_name ххххххх.online vds2949446.my-ihor.ru;
+    server_name ххххххх.online vds2111116.my-ihor.ru;
     return 301 https://$server_name$request_uri;
 }
 
 server {
     listen 443 ssl http2;
-    server_name psychology777.online;
+    server_name хххххххх.online;
 
-    ssl_certificate /etc/letsencrypt/live/psychology777.online/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/psychology777.online/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/ххххххххххх.online/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/ххххххххххх.online/privkey.pem;
 
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_ciphers HIGH:!aNULL:!MD5;
