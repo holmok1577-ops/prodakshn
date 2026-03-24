@@ -23,7 +23,7 @@ newgrp docker
 
 ```bash
 # С локальной машины
-scp -r yookassa-webhook/ root@holmok1577:/root/
+scp -r yookassa-webhook/ root@ххххххххххх:/root/
 
 # Или через git
 git clone <repository-url>
@@ -42,8 +42,8 @@ nano .env
 
 ```env
 PORT=3000
-YOOKASSA_SECRET_KEY=live_akopCQ8qGDP56rGpVrjA8hACwRkqPV5fV-UFnYje4Ck
-TELEGRAM_BOT_TOKEN=8575768480:AAHH-8PwiDPGDYaVNCZdUzW8WetLLQ-SElA
+YOOKASSA_SECRET_KEY=live_akopхххххххххххххххххххххх
+TELEGRAM_BOT_TOKEN=ххххххххххххххххххххххххххххххххх
 BOT_INTERNAL_API_URL=http://localhost:8000/api
 LOG_LEVEL=info
 ```
@@ -135,7 +135,7 @@ docker stats yookassa-webhook
 ```bash
 curl -X POST http://localhost:3000/yookassa/webhook \
   -H "Content-Type: application/json" \
-  -H "Authorization: Bearer live_akopCQ8qGDP56rGpVrjA8hACwRkqPV5fV-UFnYje4Ck" \
+  -H "Authorization: Bearer live_akopххххххххххххххххххххххххххххххххх" \
   -d '{
     "event": "payment.succeeded",
     "object": {
